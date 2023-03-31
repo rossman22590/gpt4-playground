@@ -28,7 +28,7 @@ export default async function handler(
     return new Response("Missing messages", { status: 400 });
   }
 
-  const token = req.headers.get("Authorization")?.split(" ")[1];
+  const token = process.env.OPENAI_API_KEY;
   if (!token) {
     return new Response("Missing token", { status: 401 });
   }
