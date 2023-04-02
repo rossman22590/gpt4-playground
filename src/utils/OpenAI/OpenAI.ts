@@ -1,28 +1,14 @@
+import { OpenAIChatMessage, OpenAIConfig } from "./OpenAI.types";
 import {
   createParser,
   ParsedEvent,
   ReconnectInterval,
 } from "eventsource-parser";
 
-export interface OpenAIChatMessage {
-  id?: number;
-  role: "system" | "assistant" | "user";
-  content: string;
-}
-
-export interface OpenAIConfig {
-  model: string;
-  temperature?: number;
-  max_tokens?: number;
-  top_p?: number;
-  frequency_penalty?: number;
-  presence_penalty?: number;
-}
-
 export const defaultConfig = {
-  model: "gpt-4",
+  model: "gpt-3.5-turbo",
   temperature: 0.5,
-  max_tokens: 256,
+  max_tokens: 2048,
   top_p: 1,
   frequency_penalty: 0,
   presence_penalty: 0.6,
@@ -47,6 +33,11 @@ export const getOpenAICompletion = async (
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+  // Check for errors
+  if (!response.ok) {
+    throw new Error(await response.text());
+  }
 
   let counter = 0;
   const stream = new ReadableStream({

@@ -12,6 +12,11 @@ import markdown from "react-syntax-highlighter/dist/cjs/languages/prism/markdown
 import python from "react-syntax-highlighter/dist/cjs/languages/prism/python";
 import cpp from "react-syntax-highlighter/dist/cjs/languages/prism/cpp";
 import json from "react-syntax-highlighter/dist/cjs/languages/prism/json";
+import MathJax from "react-mathjax";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
+import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
 
 SyntaxHighlighter.registerLanguage("tsx", tsx);
 SyntaxHighlighter.registerLanguage("typescript", typescript);
@@ -21,15 +26,43 @@ SyntaxHighlighter.registerLanguage("markdown", markdown);
 SyntaxHighlighter.registerLanguage("python", python);
 SyntaxHighlighter.registerLanguage("cpp", cpp);
 SyntaxHighlighter.registerLanguage("json", json);
+SyntaxHighlighter.registerLanguage("json", json);
+
+const syntaxTheme = oneDark;
 
 type Props = {
   content: string;
 };
 
-export default function ChatMessageContent({ content }: Props) {
-  const syntaxTheme = oneDark;
+export default function AssistantMessageContent({ content, ...props }: Props) {
+  const MarkdownComponents: any = {
+    // Work around for not rending <em> and <strong> tags
+    em: ({ node, inline, className, children, ...props }: any) => {
+      return (
+        <span className={className} {...props}>
+          _{children}_
+        </span>
+      );
+    },
+    strong: ({ node, inline, className, children, ...props }: any) => {
+      return (
+        <span className={className} {...props}>
+          __{children}__
+        </span>
+      );
+    },
 
-  const MarkdownComponents: object = {
+    pre: ({ node, inline, className, children, ...props }: any) => {
+      return (
+        <pre className={`m-0 ${className || ""}`} {...props}>
+          {children}
+        </pre>
+      );
+    },
+
+    math: (props: any) => <MathJax.Node formula={props.value} />,
+    inlineMath: (props: any) => <MathJax.Node inline formula={props.value} />,
+
     code({ node, inline, className, ...props }: any) {
       const hasLang = /language-(\w+)/.exec(className || "");
       const hasMeta = node?.data?.meta;
@@ -72,6 +105,13 @@ export default function ChatMessageContent({ content }: Props) {
   };
 
   return (
-    <ReactMarkdown components={MarkdownComponents}>{content}</ReactMarkdown>
+    <ReactMarkdown
+      remarkPlugins={[remarkMath]}
+      rehypePlugins={[rehypeKatex]}
+      components={MarkdownComponents}
+      {...props}
+    >
+      {content}
+    </ReactMarkdown>
   );
 }
