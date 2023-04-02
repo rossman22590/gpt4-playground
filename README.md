@@ -6,7 +6,7 @@ As a side note, all API keys are encrypted and stored in your browser's local st
 
 ## Demo
 
-### Mock ChatGPT Environment
+### Mock ChatGPT Environment 
 This environment has most of the critical features like conversation history (which is stored locally), prompting, and multiple conversations. This environment is a great way to test out your API key and see how it works!
 ![ChatGpt-4 ChatGPT](https://i.imgur.com/DfTbV9d.png)
 
