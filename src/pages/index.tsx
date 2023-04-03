@@ -15,8 +15,8 @@ export default function Chat() {
   return (
     <React.Fragment>
       <Head>
-        <title>OpenAI</title>
-        <meta name="description" content="A clone of OpenAI playground." />
+        <title>Tutor AI Playground</title>
+        <meta name="description" content="Tutor AI Playground" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
