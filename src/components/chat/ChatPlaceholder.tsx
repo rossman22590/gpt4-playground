@@ -11,22 +11,9 @@ export default function ChatPlaceholder({}: Props) {
       <div className="max-w-3xl p-4 text-center text-primary">
         <h1 className="text-4xl font-medium">GPT-4 Playground</h1>
         <p className="mt-4 text-lg">
-          A ChatGPT clone built with React, Next.js, TailwindCSS, and OpenAI
-          that allows you to play with your GPT-4 api key early!
+Tutor AI playground that allows you to switch between GPT 3.5 and GPT 4 and has the freedom to process any prompt
         </p>
-        <div className="m-4 flex items-center justify-center">
-          <AddTokenModal />
-        </div>
-        <p className="mt-4 text-lg">
-          Want more freedom? Check out the{" "}
-          <Link
-            href="/playground"
-            className="font-medium text-primary hover:underline"
-          >
-            Playground
-          </Link>
-          !
-        </p>
+        
 
         <div className="p-4">
           <GithubStar />
