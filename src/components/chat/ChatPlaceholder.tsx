@@ -15,9 +15,7 @@ Tutor AI playground that allows you to switch between GPT 3.5 and GPT 4 and has 
         </p>
         
 
-        <div className="p-4">
-          <GithubStar />
-        </div>
+
       </div>
     </div>
   );
